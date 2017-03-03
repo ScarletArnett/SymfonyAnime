@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h1>Création d'animé</h1>
+            <br>
+            {{ form_start(form) }}
+            {{ form_errors(form, {'attr': {'class': 'alert alert-warning', 'role':'alert'}}) }}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{{ form_label(form.name,'Nom') }}</th>
+                        <th>{{ form_label(form.description,'Description') }}</th>
+                        <th>{{ form_label(form.genre,'Genre') }}</th>
+                        <th>{{ form_label(form.releaseDate,'Sortie le') }}</th>
+                        <th>{{ form_label(form.isRelease,'Publié') }}</th>
+                        <th>{{ form_label(form.consulted,'Nombre de visite') }}</th>
+                        <th>{{ form_label(form.editeur,'Éditeur') }}</th>
+                        <th>{{ form_label(form.studios,'Studios') }}</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}</td>
+                        <td>{{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}</td>
+                        <td>{{ form_widget(form.genre, {'attr': {'class': 'form-control'}}) }}</td>
+                        <td>{{ form_widget(form.releaseDate, {'attr': {'class': 'js-datepicker'}}) }}</td>
+                        <td>{{ form_widget(form.isRelease) }}</td>
+                        <td>{{ form_widget(form.consulted, {'attr': {'class': 'form-control'}}) }}</td>
+                        <td>{{ form_widget(form.editeur, {'attr': {'class': 'form-control'}}) }}</td>
+                        <td>{{ form_widget(form.studios, {'attr': {'class': 'form-control'}}) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <input class="btn btn-success" type="submit" value="Créer" />
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

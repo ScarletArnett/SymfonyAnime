@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <br><br>
+                <h1>{{ anime.name }}</h1>
+                <small>
+                    <ul class="list-unstyled">
+                        <li>
+                            <i class="glyphicon glyphicon-calendar" aria-hidden="true">
+                                <span>
+                                    {% if anime.isRelease %}
+                                        {{ anime.releaseDate | date('d-m-Y') }}
+                                    {% else %}
+                                        Aucune date de sortie pour le moment.
+                                    {% endif %}
+                                </span>
+                            </i>
+                        </li>
+                        <li>
+                            <i class="glyphicon glyphicon-eye-open" aria-hidden="true">
+                                <span>
+                                    {{ anime.consulted }}
+                                </span>
+                            </i>
+                        </li>
+                        <li>
+                            <i class="glyphicon glyphicon-folder-close" aria-hidden="true">
+                                <span>
+                                    {{ anime.editeur }}
+                                </span>
+                            </i>
+                        </li>
+                    </ul>
+                </small>
+                <br>
+                <ul class="list-unstyled">
+                    {% for studio in anime.studios %}
+                        <li class="btn btn-info btn-sm">{{ studio }}</li>
+                    {% endfor %}
+                </ul>
+                <p>
+                    <em>
+                        {{ anime.description }}
+                    </em>
+                </p>
+                <br>
+                <br>
+                <table class="table table-striped text-center" >
+                    <thead>
+                        <tr>
+                            <th>News</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for news in anime.news %}
+                        <tr>
+                            <td><a href="{{ path('news_show', { 'id': news.id }) }}"> {{ news.title }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <a class="glyphicon glyphicon-chevron-left" aria-hidden="true" href="{{ path('anime_index') }}"></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

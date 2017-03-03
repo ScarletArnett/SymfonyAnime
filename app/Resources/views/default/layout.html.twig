@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+      {% block stylesheets %}
+          <link href="{{ asset("bundles/css/main.css")  }}" rel="stylesheet"/>
+      {% endblock %}
+    <title>{% block title %}Titre principal{% endblock %}</title>
+  </head>
+  <body>
+    {% block body %}
+        <span class="ugly">
+            Ceci est très moche.
+        </span>
+    {% endblock %}
+  </body>
+</html>

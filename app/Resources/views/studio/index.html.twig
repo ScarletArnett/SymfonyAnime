@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>Studio</h2>
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('suppression') %}
+                <div class="alert alert-warning" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            <table class="table" >
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Éditeur</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for studio in studios %}
+                    <tr>
+                        <td>{{ studio.name }}</td>
+                        <td>{{ studio.editeur }}</td>
+                        <td>{% if studio.releasedDate %}{{ studio.releasedDate |date('d/m/Y') }}{% endif %}</td>
+                        <td>
+                            <div style="display: inline-block;">
+                                <form action="{{ path('studio_show', { 'id': studio.id })  }}">
+                                    <input class="btn btn-success" type="submit" value="Détails" />
+                                </form>
+                            </div>
+                            <div style="display: inline-block;">
+                                <form action="{{ path('studio_edit', { 'id': studio.id })  }}">
+                                    <input class="btn btn-warning" type="submit" value="Éditer" />
+                                </form>
+                            </div>
+                            {% set delete_form = delete_forms[loop.index0] %}
+                            <div style="display: inline-block;">
+                                {{ form_start(delete_form) }}
+                                <input class="btn btn-danger" type="submit" value="Supprimer" />
+                                {{ form_end(delete_form) }}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <form action="{{ path('studio_new') }}">
+                <input class="btn btn-success" type="submit" value="Ajouter" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

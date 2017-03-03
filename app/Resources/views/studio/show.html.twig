@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <br><br>
+            <h1>{{ studio.name }}</h1>
+            <small>
+                <ul class="list-unstyled">
+                    <li>
+                        <i class="glyphicon glyphicon-calendar" aria-hidden="true">
+                            <span>
+                                {{ studio.releasedDate | date('d-m-Y') }}
+                            </span>
+                        </i>
+                    </li>
+                    <li>
+                        <i class="glyphicon glyphicon-folder-close" aria-hidden="true">
+                                <span>
+                                    {{ studio.editeur }}
+                                </span>
+                        </i>
+                    </li>
+                </ul>
+            </small>
+            <table class="table table-striped text-center" >
+                <thead>
+                <tr>
+                    <th>Animés</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    {% for anime in studio.editeur.animes %}
+                        <td>
+                            <a href="{{ path('anime_show', { 'id': anime.id })  }}">{{ anime.name }}</a>
+                        </td>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+            <a class="glyphicon glyphicon-chevron-left" aria-hidden="true" href="{{ path('studio_index') }}"></a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}My Title{% endblock %}</title>
+    </head>
+    <body>
+    <a href="{{ path('Anime', { 'title': "Sword Art Online"  }) }}"> Lien vers un animé </a>
+    <div>Hello {{ name }} !</div>
+    </body>
+</html>

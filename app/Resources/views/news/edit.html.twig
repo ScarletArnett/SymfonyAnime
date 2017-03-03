@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <h1>Éditeur de news</h1>
+            <br>
+            {{ form_start(edit_form) }}
+            {{ form_errors(edit_form, {'attr': {'class': 'alert alert-warning', 'role':'alert'}}) }}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>{{ form_label(edit_form.title,'Titre') }}</th>
+                    <th>{{ form_label(edit_form.content,'Description') }}</th>
+                    <th>{{ form_label(edit_form.dateMaj,'Modifié le') }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ form_widget(edit_form.title, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(edit_form.content, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(edit_form.dateMaj, {'attr': {'class': 'js-datepicker'}}) }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div>
+                <input class="btn btn-warning" type="submit" value="Éditer" />
+            </div>
+            {{ form_end(edit_form) }}
+        </div>
+    </div>
+{% endblock %}

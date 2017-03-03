@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <!-- NEWS CLASSIC -->
+            {% if from_anime == false %}
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="list-unstyled">
+                        <a class="btn btn-primary" href="{{ path('news_index_list_rebase') }}" role="button">Tous</a>
+                        {% for studio in studios %}
+                            <a class="btn btn-primary" href="{{ path('news_index_order', { 'id': studio.id }) }}" role="button">{{ studio }}</a>
+                        {% endfor %}
+                    </div>
+                    <br><br>
+                    {% for news in news %}
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                {% if from_anime == true %}
+                                    <a class="btn btn-warning" href="{{ path('news_edit', { 'id': news.id }) }}" role="button">Éditer</a>
+                                {% endif %}
+                                <h3>
+                                    <a href="{{ path('news_show', { 'id': news.id }) }}">{{ news.title }}</a>
+                                    <small>
+                                        {{ news.anime }}
+                                    </small>
+                                </h3>
+                                <ul class="list-unstyled">
+                                    {% for studio in news.anime.studios %}
+                                        <li class="btn btn-info btn-sm">{{ studio }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <br>
+                    {% endfor %}
+                    <!-- PAGINATION -->
+                    {% if ordered == false %}
+                        <!-- SANS ORDERING -->
+                        <div class="text-center">
+                            <ul class="pagination">
+                                {% for p in range(max(pagination.page-4, 1),min(pagination.page+4, pagination.pages_count)) %}
+                                <li {% if p == pagination.page %} class="active"  {% endif %}>
+                                    {% if p == 1 %}
+                                        <a href="{{ path('news_index_list_rebase') }}">{{ p }}</a></li>
+                                    {% else %}
+                                        <a href="{{ path('news_index_list', { 'page': p }) }}">{{ p }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <!-- AVEC ORDERING -->
+                        <div class="text-center">
+                            <ul class="pagination">
+                                {% for p in range(max(pagination.page-4, 1),min(pagination.page+4, pagination.pages_count)) %}
+                                    <li {% if p == pagination.page %} class="active"  {% endif %}>
+                                        <a href="{{ path('news_index_order', { 'page': p, 'id': studio_id }) }}">{{ p }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            {%  endif %}
+
+            <!-- NEWS ADMIN -->
+            <div class="col-md-10 col-md-offset-2">
+                {% if from_anime == true %}
+                    <h2>Liste des news</h2>
+                    <br>
+                    <form action="{{ path('news_new', { 'id': anime.id }) }}">
+                        <input class="btn btn-success" type="submit" value="Ajouter" />
+                    </form>
+                    <br>
+                    {% for flashMessage in app.session.flashbag.get('success') %}
+                        <div class="alert alert-success" role="alert">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+                    {% for flashMessage in app.session.flashbag.get('suppression') %}
+                        <div class="alert alert-warning" role="alert">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+                    <table class="table ">
+                        <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Date MAJ</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for new in news %}
+                            <tr>
+                                <td>{{ new.title }}</td>
+                                <td>{% if new.dateMaj %}{{ new.dateMaj|date('d/m/Y') }}{% endif %}</td>
+                                <td>
+                                    <div style="display: inline-block;">
+                                        <form action="{{ path('news_show', { 'id': new.id })  }}">
+                                            <input class="btn btn-success" type="submit" value="Détails" />
+                                        </form>
+                                    </div>
+                                    <div style="display: inline-block;">
+                                        <form action="{{ path('news_edit', { 'id': new.id })  }}">
+                                            <input class="btn btn-warning" type="submit" value="Éditer" />
+                                        </form>
+                                    </div>
+                                    {% set delete_form = delete_forms[loop.index0] %}
+                                    <div style="display: inline-block;">
+                                        {{ form_start(delete_form) }}
+                                        <input class="btn btn-danger" type="submit" value="Supprimer" />
+                                        {{ form_end(delete_form) }}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <a class="glyphicon glyphicon-chevron-left" aria-hidden="true" href="{{ path('anime_index') }}"></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

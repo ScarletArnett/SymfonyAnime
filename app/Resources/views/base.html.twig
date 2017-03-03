@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>MyAnimeList</title>
+        {% block stylesheets %}
+            <link href="{{ asset("bundles/css/main.css")  }}" rel="stylesheet"/>
+            <link href="{{ asset("bundles/css/bootsrap/bootstrap.css")  }}" rel="stylesheet"/>
+            <link href="{{ asset("bundles/css/bootsrap/bootstrap-theme.css")  }}" rel="stylesheet"/>
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <div>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{{ path('news_index_list_rebase') }}">News</a></li>
+                            <li><a href="{{ path('anime_index') }}">AnimeList</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path('anime_index')}}">Animes</a></li>
+                                    <li><a href="{{ path('editeur_index') }}">Éditeur</a></li>
+                                    <li><a href="{{ path('studio_index') }}">Studio</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{{ path('logout') }}">Déconnexion</a></li>
+                            </ul>
+                        {% else %}
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{{ path('studio_index') }}">Connexion</a></li>
+                            </ul>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </nav>
+        </div>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    $('.js-datepicker').datepicker({
+                        format: 'yyyy-mm-dd'
+                    });
+                });
+            </script>
+        {% endblock %}
+    </body>
+</html>

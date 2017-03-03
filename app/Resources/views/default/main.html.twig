@@ -1,0 +1,11 @@
+{% extends "default/layout.html.twig" %}
+{% block title %}{{ parent() }} – élément hérité{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <div class="really">
+        Ceci est moche.
+    </div>
+    <div>
+        <a href="{{ path('Contact') }}"> Contact </a>
+    </div>
+{% endblock %} 

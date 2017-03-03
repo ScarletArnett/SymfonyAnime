@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <h2>AnimeList</h2>
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('suppression') %}
+                <div class="alert alert-danger" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            <table class="table" >
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Date de sortie</th>
+                    <th>Sortie</th>
+                    <th>Editeur</th>
+                    <th>Studios</th>
+                    <th>Genres</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for anime in animes %}
+                    <tr>
+                        <td>{{ anime.name }}</td>
+                        <td>{% if anime.releaseDate %}{{ anime.releaseDate|date('d/m/Y') }}{% endif %}</td>
+                        <td>{% if anime.isRelease %}
+                                <input type="checkbox" onclick="return false;" checked> Publié </input>
+                            {% else %}
+                                <input type="checkbox"  onclick="return false;"> Publié </input>
+                            {% endif %}
+                        </td>
+                        <td>{% if anime.editeur %} {{ anime.editeur }} {% endif %}</td>
+                        <td>
+                            {% for studio in anime.studios %}
+                                {% if loop.last %}
+                                    {{ studio }}
+                                {% else %}
+                                    {{ studio }},
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{ anime.genre }}</td>
+                        <td>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <div style="display: inline-block;">
+                                    <form action="{{ path('anime_show', { 'id': anime.id })  }}">
+                                        <input class="btn btn-success" type="submit" value="Détails" />
+                                    </form>
+                                </div>
+                                <div style="display: inline-block;">
+                                    <form action="{{ path('anime_edit', { 'id': anime.id })  }}">
+                                        <input class="btn btn-warning" type="submit" value="Éditer" />
+                                    </form>
+                                </div>
+                                <div style="display: inline-block;">
+                                    <form action="{{ path('news_anime_index', { 'id': anime.id })  }}">
+                                        <input class="btn btn-info" type="submit" value="News" />
+                                    </form>
+                                </div>
+                                <div style="display: inline-block;">
+                                    <form action="{{ path('anime_publish', { 'id': anime.id, 'value': anime.isRelease })  }}">
+                                        <input class="btn btn-primary" type="submit" value="Publication" />
+                                    </form>
+                                </div>
+                                {% set delete_form = delete_forms[loop.index0] %}
+                                <div style="display: inline-block;">
+                                    {{ form_start(delete_form) }}
+                                        <input class="btn btn-danger" type="submit" value="Supprimer" />
+                                    {{ form_end(delete_form) }}
+                                </div>
+                            {% else %}
+                                <div style="display: inline-block;">
+                                    <form action="{{ path('anime_show', { 'id': anime.id })  }}">
+                                        <input class="btn btn-success" type="submit" value="Détails" />
+                                    </form>
+                                </div>
+                                <div style="display: inline-block;">
+                                    <form action="{{ path('news_anime_index', { 'id': anime.id })  }}">
+                                        <input class="btn btn-info" type="submit" value="News" />
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <form action="{{ path('anime_new') }}">
+                    <input class="btn btn-success" type="submit" value="Ajouter" />
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

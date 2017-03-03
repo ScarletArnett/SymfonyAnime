@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <br><br>
+                <h1>{{ news.title }}</h1>
+                <small>
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true">{{ news.dateMaj | date('d-m-Y') }}</span>
+                </small>
+                <br>
+                <br>
+                <ul class="list-unstyled">
+                    {% for studio in news.anime.studios %}
+                        <li class="btn btn-info btn-sm">{{ studio }}</li>
+                    {% endfor %}
+                </ul>
+                <dl>
+                    <dt><u>Animé :</u></dt>
+                    <dd><a href="{{ path('anime_show', { 'id': news.anime.id })  }}">{{ news.anime }}</a></dd>
+                </dl>
+                <p>
+                    <em>
+                        {{ news.content }}
+                    </em>
+                </p>
+                <br>
+                <br>
+                <a class="glyphicon glyphicon-chevron-left" aria-hidden="true" href="{{ path('news_index_list_rebase') }}"></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

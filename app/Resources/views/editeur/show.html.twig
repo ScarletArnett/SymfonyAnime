@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <br><br>
+            <h1>{{ editeur.name }}</h1>
+            <table class="table table-striped text-center" >
+                <thead>
+                <tr>
+                    <th>Animés</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for anime in animes %}
+                        <td>
+                            <a href="{{ path('anime_show', { 'id': anime.id })  }}">{{ anime.name }}</a>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+            <a class="glyphicon glyphicon-chevron-left" aria-hidden="true" href="{{ path('editeur_index') }}"></a>
+        </div>
+    </div>
+{% endblock %}

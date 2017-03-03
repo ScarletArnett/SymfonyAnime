@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <h1>Éditeur de news pour {{ anime.name }}</h1>
+            <br>
+            {{ form_start(form) }}
+            {{ form_errors(form, {'attr': {'class': 'alert alert-warning', 'role':'alert'}}) }}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>{{ form_label(form.title,'Titre') }}</th>
+                    <th>{{ form_label(form.content,'Description') }}</th>
+                    <th>{{ form_label(form.dateMaj,'Modifié le') }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form.dateMaj, {'attr': {'class': 'js-datepicker'}}) }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div>
+                <input class="btn btn-success" type="submit" value="Créer" />
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
